@@ -3,6 +3,7 @@ const debug = require('debug')('app:expense-tracker:update-service');
 const { getDbContext } = require('../shared/db.service');
 const { UserException } = require('../shared/exceptions');
 const { ObjectId } = require('mongodb');
+const { sendNotification } = require('../shared/queue.service');
 
 async function updateExpenseById(expenseDto) {
 
@@ -41,6 +42,8 @@ async function approveExpense(id) {
 
     try {
 
+        const expense = await db.collection('expenses').findOne({ _id: ObjectId(id) });
+
         await db.collection('expenses').updateOne({ "_id": ObjectId(id) },
             {
                 $set: {
@@ -48,6 +51,22 @@ async function approveExpense(id) {
                     "actionBy": "SYSTEM"
                 }
             });
+
+        const notifcationForInitiator = {
+            expenseReferenceId: ObjectId(id),
+            message: `Your expense request (${expense.title}) was approved by manager`,
+            createDate: new Date().toISOString()
+        }
+
+        await sendNotification(notifcation);
+
+        const notifcationForFinance = {
+            expenseReferenceId: ObjectId(id),
+            message: `Expense request (${expense.title}) ready for review`,
+            createDate: new Date().toISOString()
+        }
+
+        await sendNotification(notifcation);
 
     } catch (error) {
         debug(error.stack);
@@ -68,6 +87,14 @@ async function rejectExpense(id) {
                     "actionBy": "SYSTEM"
                 }
             });
+
+        const notifcationForInitiator = {
+            expenseReferenceId: ObjectId(id),
+            message: `Your expense request (${expense.title}) was rejected by manager`,
+            createDate: new Date().toISOString()
+        }
+
+        await sendNotification(notifcation);
 
     } catch (error) {
         debug(error.stack);
