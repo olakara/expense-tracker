@@ -2,6 +2,7 @@ const express = require('express');
 const debug = require('debug')('app:expense-tracker:create-service')
 const { MongoClient } = require('mongodb');
 
+
 async function createExpense(expenseDto) {
 
     const url = 'mongodb://localhost:27017';
@@ -26,7 +27,7 @@ async function createExpense(expenseDto) {
     } catch (error) {
         debug(error.stack);
     }
-
+    client.close();
 }
 
 module.exports = { createExpense };
