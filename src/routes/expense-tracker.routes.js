@@ -32,15 +32,21 @@ router.post('/', validator.createExpense, async (req, res) => {
 });
 
 // Update  expense report
-router.put('/:id', async (req, res) => {
+router.put('/:id', validator.updateExpense, async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
 
     const expenseDto = {
+        id: req.body.id,
         title: req.body.title,
         amount: req.body.amount,
         date: req.body.date
     };
 
-    res.json(await createService.createExpense(expenseDto));
+    res.json(await updateService.updateExpenseById(expenseDto));
 
 });
 

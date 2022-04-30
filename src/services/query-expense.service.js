@@ -17,7 +17,7 @@ async function getAllExpenses() {
 
         const result = expenses.map((x) => {
             return {
-                _id: x._id,
+                id: x._id,
                 title: x.title,
                 amount: x.amount,
                 date: x.date,
