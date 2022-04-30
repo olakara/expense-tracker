@@ -1,6 +1,8 @@
 const express = require('express');
 const debug = require('debug')('app:expense-tracker:query-service');
 const { getDbContext } = require('../shared/db.service');
+const { ObjectId } = require('mongodb');
+
 
 async function getAllExpenses() {
 
@@ -33,7 +35,7 @@ async function getExpenseById(id) {
 
     try {
 
-        const expense = await db.collection('expenses').findOne({ _id: id });
+        const expense = await db.collection('expenses').findOne({ _id: ObjectId(id) });
 
         const result = {
             id: expense._id,

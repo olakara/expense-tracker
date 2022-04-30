@@ -14,6 +14,13 @@ router.get('/', async (req, res) => {
     res.json(vm);
 });
 
+router.get('/:id', async (req, res) => {
+
+    const id = req.params.id;
+    const vm = await queryService.getExpenseById(id)
+    res.json(vm);
+});
+
 // Create new expense report
 router.post('/', validator.createExpense, async (req, res) => {
 
@@ -50,16 +57,30 @@ router.put('/:id', validator.updateExpense, async (req, res) => {
 
 });
 
-// Approve/ Reject expense report
-router.put('/:id/action', async (req, res) => {
+// Approve expense report
+router.put('/:id/approve', async (req, res) => {
+    const id = req.params.id;
+    res.json(await updateService.approveExpense(id));
+});
 
+// Reject expense report
+router.put('/:id/reject', async (req, res) => {
+    const id = req.params.id;
+    res.json(await updateService.rejectExpense(id));
 });
 
 // Delete expense report
 router.delete('/:id', async (req, res) => {
 
-    const id = req.params.id;
-    res.json(await deleteService.deleteExpenseById(id));
+    try {
+        const id = req.params.id;
+        res.json(await deleteService.deleteExpenseById(id));
+
+    } catch (error) {
+
+        debug(error);
+        res.status(406).json(error)
+    }
 });
 
 module.exports = router;
