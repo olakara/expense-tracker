@@ -12,7 +12,7 @@ async function deleteExpenseById(id) {
 
         const expense = await db.collection('expenses').findOne({ _id: ObjectId(id) });
 
-        if (expense.isApproved)
+        if (expense.status === 'APPROVED')
             throw new UserException('Expense request already approved by manager');
 
 

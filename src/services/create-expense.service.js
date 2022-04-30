@@ -10,7 +10,7 @@ async function createExpense(expenseDto) {
         const expenseDm = {
             ...expenseDto,
             createdBy: 'SYSTEM',
-            isApproved: false,
+            status: 'PENDING',
             isDeleted: false
         };
 
