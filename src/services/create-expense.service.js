@@ -26,7 +26,7 @@ async function createExpense(expenseDto) {
     } catch (error) {
         debug(error.stack);
     }
-
+    client.close();
 }
 
 module.exports = { createExpense };
