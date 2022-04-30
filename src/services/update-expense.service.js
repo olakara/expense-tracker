@@ -16,4 +16,4 @@ async function rejectExpense(id) {
 }
 
 
-module.exports = { deleteExpenseById };
+module.exports = { updateExpenseById, approveExpense, rejectExpense };
