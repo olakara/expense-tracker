@@ -1,13 +1,11 @@
 const express = require('express');
-const debug = require('debug')('app:expense-tracker:query-service');
-const { MongoClient, ObjectId } = require('mongodb');
+const debug = require('debug')('app:expense-tracker:delete-service');
+const { getDbContext } = require('../shared/db.service');
+
 
 async function deleteExpenseById(id) {
 
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'expense-tracker';
-
-    let client;
+    const [db, client] = await getDbContext();
     try {
         client = await MongoClient.connect(url);
         debug('Connected to the Mongo DB');

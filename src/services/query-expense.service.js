@@ -1,17 +1,11 @@
 const express = require('express');
 const debug = require('debug')('app:expense-tracker:query-service');
-const { MongoClient } = require('mongodb');
+const { getDbContext } = require('../shared/db.service');
 
 async function getAllExpenses() {
 
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'expense-tracker';
-
-    let client;
+    const [db, client] = await getDbContext();
     try {
-        client = await MongoClient.connect(url);
-        debug('Connected to the Mongo DB');
-        const db = client.db(dbName);
 
         const expenses = await db.collection('expenses').find({ isDeleted: false }).toArray();
 
@@ -35,7 +29,26 @@ async function getAllExpenses() {
 
 async function getExpenseById(id) {
 
-    return {}
+    const [db, client] = await getDbContext();
+
+    try {
+
+        const expense = await db.collection('expenses').findOne({ _id: id });
+
+        const result = {
+            id: expense._id,
+            title: expense.title,
+            amount: expense.amount,
+            date: expense.date,
+            isApproved: expense.isApproved
+        };
+
+        return result;
+
+    } catch (error) {
+        debug(error.stack);
+    }
+    client.close();
 }
 
 
