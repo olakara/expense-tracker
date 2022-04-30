@@ -1,19 +1,12 @@
 const express = require('express');
 const debug = require('debug')('app:expense-tracker:create-service')
-const { MongoClient } = require('mongodb');
-
+const { getDbContext } = require('../shared/db.service');
 
 async function createExpense(expenseDto) {
 
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'expense-tracker';
+    const [db, client] = await getDbContext();
 
-    let client;
     try {
-        client = await MongoClient.connect(url);
-        debug('Connected to the Mongo DB');
-        const db = client.db(dbName);
-
         const expenseDm = {
             ...expenseDto,
             createdBy: 'SYSTEM',

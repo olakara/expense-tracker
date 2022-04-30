@@ -1,18 +1,12 @@
 const express = require('express');
-const debug = require('debug')('app:expense-tracker:query-service');
-const { MongoClient } = require('mongodb');
+const debug = require('debug')('app:expense-tracker:update-service');
+const { getDbContext } = require('../shared/db.service');
 
 async function updateExpenseById(expenseDto) {
 
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'expense-tracker';
+    const [db, client] = await getDbContext();
 
-    let client;
     try {
-        client = await MongoClient.connect(url);
-        debug('Connected to the Mongo DB');
-        const db = client.db(dbName);
-
         await db.collection('expenses').updateOne({ "_id": ObjectId(expenseDto.id) },
             {
                 $set: {
@@ -31,14 +25,10 @@ async function updateExpenseById(expenseDto) {
 }
 
 async function approveExpense(id) {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'expense-tracker';
 
-    let client;
+    const [db, client] = await getDbContext();
+
     try {
-        client = await MongoClient.connect(url);
-        debug('Connected to the Mongo DB');
-        const db = client.db(dbName);
 
         await db.collection('expenses').updateOne({ "_id": ObjectId(id) },
             {
@@ -56,15 +46,10 @@ async function approveExpense(id) {
 }
 
 async function rejectExpense(id) {
-    const url = 'mongodb://localhost:27017';
-    const dbName = 'expense-tracker';
 
-    let client;
+    const [db, client] = await getDbContext();
+
     try {
-        client = await MongoClient.connect(url);
-        debug('Connected to the Mongo DB');
-        const db = client.db(dbName);
-
         await db.collection('expenses').updateOne({ "_id": ObjectId(id) },
             { $set: { "isDeleted": true } });
 
