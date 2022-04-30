@@ -17,7 +17,7 @@ async function getAllExpenses() {
                 title: x.title,
                 amount: x.amount,
                 date: x.date,
-                isApproved: x.isApproved
+                status: x.status
             }
         });
 
@@ -42,7 +42,7 @@ async function getExpenseById(id) {
             title: expense.title,
             amount: expense.amount,
             date: expense.date,
-            isApproved: expense.isApproved
+            status: expense.status
         };
 
         return result;
