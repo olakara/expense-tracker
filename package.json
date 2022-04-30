@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "set DEBUG=expense-tracker:app & node app.js",
+    "start": "set DEBUG=app:* & nodemon app.js",
     "debug": "set DEBUG=* & nodemon app.js"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
     "chalk": "^4.1.2",
     "debug": "^4.3.4",
     "express": "^4.17.3",
+    "mongodb": "^4.5.0",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
   },
