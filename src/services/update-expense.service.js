@@ -68,6 +68,8 @@ async function approveExpense(id) {
 
         await sendNotification(notifcationForFinance);
 
+        //TODO Send actual business message for finance ?
+
     } catch (error) {
         debug(error.stack);
     }

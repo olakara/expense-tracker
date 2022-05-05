@@ -11,7 +11,7 @@ async function sendNotification(message) {
         let connection = await amqp.connect(url);
         let channel = await connection.createChannel();
         await channel.assertQueue(queue, {
-            durable: false
+            durable: true
         });
 
         let msg = {
