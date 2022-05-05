@@ -1,0 +1,30 @@
+version: '3'
+services:
+  expense-tacker:
+    container_name: expense
+    build:
+      dockerfile: Dockerfile
+      context: ./
+    image: olakara/expense-tracker
+    ports:
+      - "3000:80"
+    depends_on:
+      - expense-db
+      - rabbitmq
+  expense-db:
+    container_name: expense-db
+    image: mongo
+    restart: always
+    volumes:
+      - ../mongo-volume:/data/db
+    ports:
+      - "27017:27017"
+  rabbitmq:
+    container_name: my-rabbit
+    image: rabbitmq:3-management
+    ports:
+      - "8080:15672"
+      - "5672:5672"
+    volumes:
+        - ../rabbitmq-volume/data:/var/lib/rabbitmq/
+        - ../rabbitmq-volume/log:/var/log/rabbitmq

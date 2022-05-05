@@ -6,6 +6,7 @@ const { ObjectId } = require('mongodb');
 
 async function getAllExpenses() {
 
+
     const [db, client] = await getDbContext();
     try {
 
