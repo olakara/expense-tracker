@@ -58,7 +58,7 @@ async function approveExpense(id) {
             createDate: new Date().toISOString()
         }
 
-        await sendNotification(notifcation);
+        await sendNotification(notifcationForInitiator);
 
         const notifcationForFinance = {
             expenseReferenceId: ObjectId(id),
@@ -66,7 +66,7 @@ async function approveExpense(id) {
             createDate: new Date().toISOString()
         }
 
-        await sendNotification(notifcation);
+        await sendNotification(notifcationForFinance);
 
     } catch (error) {
         debug(error.stack);
@@ -94,7 +94,7 @@ async function rejectExpense(id) {
             createDate: new Date().toISOString()
         }
 
-        await sendNotification(notifcation);
+        await sendNotification(notifcationForInitiator);
 
     } catch (error) {
         debug(error.stack);

@@ -1,6 +1,6 @@
 let config = {};
 
-config.URL = 'amqp://localhost';
+config.URL = 'amqp://my-rabbit';
 config.QNAME = 'notifications'
 
 module.exports = { config };

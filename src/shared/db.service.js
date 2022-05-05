@@ -11,6 +11,8 @@ async function getDbContext() {
     let client;
 
     try {
+        console.log('database configuration', url, dbName);
+
         client = await MongoClient.connect(url);
         debug('Connected to the Mongo DB');
         const db = client.db(dbName);

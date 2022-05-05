@@ -6,6 +6,8 @@ async function sendNotification(message) {
     const url = config.URL;
     const queue = config.QNAME;
     try {
+        console.log('queue configuration', url, queue);
+
         let connection = await amqp.connect(url);
         let channel = await connection.createChannel();
         await channel.assertQueue(queue, {
